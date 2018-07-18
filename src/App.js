@@ -6,9 +6,9 @@ const randomNames = require('random-name');
 
 // This block will mimic the payload from the API
 let payload = [];
-for (let i = 0; i < rn({min:0, max: 15, integer:true}); i++) {
+for (let i = 0; i < rn({min:1, max: 15, integer:true}); i++) {
   let arr = [];
-  for (let i = 0; i < rn({min:0, max:15, integer:true}); i++) {
+  for (let i = 0; i < rn({min:1, max:15, integer:true}); i++) {
     arr.push(rn({min:100, max:999, integer:true}));
   }
 
