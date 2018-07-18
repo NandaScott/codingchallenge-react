@@ -2,51 +2,51 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 const rn = require('random-number');
+const randomNames = require('random-name');
+
+// This block will mimic the payload from the API
+let payload = [];
+for (let i = 0; i < rn({min:0, max: 15, integer:true}); i++) {
+  let arr = [];
+  for (let i = 0; i < rn({min:0, max:15, integer:true}); i++) {
+    arr.push(rn({min:100, max:999, integer:true}));
+  }
+
+  payload.push({name: randomNames(), values: arr});
+}
+
+function MapPayload (props) {
+  return props.payload.map((anObjectMapped, index) => {
+    let listValues = anObjectMapped.values.map((values, index) => 
+      <li key={index}>{values}</li>
+    );
+
+    return(
+      <ul key={index}>
+        <li key={index}>{anObjectMapped.name}
+          <ul key={index}>
+            {listValues}
+          </ul>
+        </li>
+      </ul>
+    );
+  })
+}
 
 function Root (props) {
-  return (
+  return(
       <ul>
         <li>Root
-          <Factory names={props.names} numbers={props.numbers}/>
+          <MapPayload payload={props.payload}/>
         </li>
       </ul>
   );
 }
 
-function Factory (props) {
-  const names = props.names;
 
-  const list_names = names.map((name) => 
-  <li>{name}<Numbers numbers={props.numbers}/></li>
-  );
-
-  return (
-    <ul>{list_names}</ul>
-  );
-}
-
-function Numbers (props) {
-  const numbers = props.numbers;
-
-  const list_numbers = numbers.map((numbers) =>
-  <li>{numbers}</li>
-  );
-
-  return (
-    <ul>{list_numbers}</ul>
-  );
-}
-
-const factory_names = ["Factory1", "Memes"];
-const numbers = [];
-
-for (let i = 0; i < 15; i++) {
-  numbers.push(rn({min:100, max:999, integer: true}));
-}
-
-class App extends Component {
+export default class App extends Component {
   render() {
-    return (
+    return(
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -54,11 +54,9 @@ class App extends Component {
         </header>
 
         <div className="table-container">
-          <Root names={factory_names} numbers={numbers} />
+          <Root payload={payload} />
         </div>
       </div>
     );
   }
 }
-
-export default App;
