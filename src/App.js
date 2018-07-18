@@ -18,28 +18,28 @@ for (let i = 0; i < rn({min:1, max: 15, integer:true}); i++) {
 function MapPayload (props) {
   return props.payload.map((anObjectMapped, index) => {
     let listValues = anObjectMapped.values.map((values, index) => 
-      <li key={index}>{values}</li>
+      <li key={index}><span className="list-item">{values}</span></li>
     );
 
     return(
-      <ul key={index}>
-        <li key={index}>{anObjectMapped.name}
-          <ul key={index}>
+      <ol key={index}>
+        <li key={index}><span className="list-header"><h4>{anObjectMapped.name}</h4></span>
+          <ol key={index}>
             {listValues}
-          </ul>
+          </ol>
         </li>
-      </ul>
+      </ol>
     );
   })
 }
 
 function Root (props) {
   return(
-      <ul>
-        <li>Root
+      <ol>
+        <li><span className="list-header"><h3>Root</h3></span>
           <MapPayload payload={props.payload}/>
         </li>
-      </ul>
+      </ol>
   );
 }
 
@@ -54,7 +54,9 @@ export default class App extends Component {
         </header>
 
         <div className="table-container">
-          <Root payload={payload} />
+          <div className="list-type1">
+            <Root payload={payload} />
+          </div>
         </div>
       </div>
     );
