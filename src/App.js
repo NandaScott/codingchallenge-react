@@ -17,12 +17,12 @@ for (let i = 0; i < rn({min:1, max: 15, integer:true}); i++) {
 
 function ShowOptions () {
   return (
-    <ol>
+    <ul>
       <li>Create Factory</li>
       <li>Rename Factory</li>
       <li>Generate Numbers</li>
       <li>Delete Factory</li>
-    </ol>
+    </ul>
   );
 }
 
@@ -42,7 +42,7 @@ function HandleOptions (props) {
 
 function ShowOptionsButton (props) {
   return (
-    <button onClick={props.onClick}>
+    <button id='button' onClick={props.onClick}>
       Show Options
     </button>
   );
@@ -50,7 +50,7 @@ function ShowOptionsButton (props) {
 
 function HideOptionsButton (props) {
   return (
-    <button onClick={props.onClick}>
+    <button id='button' onClick={props.onClick}>
       Hide Options
     </button>
   );
@@ -83,7 +83,7 @@ class OptionsControl extends Component {
     }
 
     return (
-      <div className='options-button'>
+      <div className='options-styling'>
         <HandleOptions renderOptions={isShown} />
         {button}
       </div>
@@ -101,8 +101,10 @@ function MapPayload (props) {
       <ol key={index}>
         <li key={index}>
           <div className="list-header">
-            <h4>{anObjectMapped.name}</h4>
-            <OptionsControl />
+            <h4>
+              {anObjectMapped.name}
+              <OptionsControl />
+            </h4>
           </div>
           <ol key={index}>
             {listValues}
@@ -118,8 +120,10 @@ function Root (props) {
       <ol>
         <li>
           <div className="list-header">
-            <h3>Root</h3>
-            <OptionsControl />
+            <h3>
+              Root
+              <OptionsControl />
+            </h3>
           </div>
           <MapPayload payload={props.payload}/>
         </li>

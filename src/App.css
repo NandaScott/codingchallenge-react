@@ -37,7 +37,8 @@
 }
 
 .list-type1{
-  margin:0 50em 0 0;
+  margin:0 200px 0 0;
+  width: 50em;
 }
 
 .list-type1 ol{
@@ -55,9 +56,10 @@
 
 .list-type1 .list-header{
   position: relative;
-  display: block;
+  display: inline-block;
   padding: .4em .4em .4em 2em;
   *padding: .4em;
+  width: 50em;
   margin: .8em 0;
   background: #abf2ff;
   color: #000;
@@ -89,6 +91,40 @@
   transform: scale(1.01);
 }
 
-/* .options-button {
+.options-button {
+  margin: 0;
+}
 
-} */
+.options-styling {
+  font-weight: normal;
+  float: right;
+}
+
+.options-styling ul {
+  list-style-type: none;
+  padding-left: 0;
+  background: rgb(85, 115, 129);
+  padding: .5em;
+  border-radius: .3em;
+  font-weight: 500;
+  margin: 0 1em;
+}
+
+.options-styling li {
+  padding: .2em;
+}
+
+button {
+  margin: 0 0 0 1.3em;
+  border: none;
+  display: inline-block;
+  background: #d6f9ff;
+  padding: 1em;
+  border-radius: .3em;
+  font-weight: 500;
+  width: 13.6em;
+}
+
+button:hover {
+  background: #abf2ff;
+}
