@@ -21,7 +21,7 @@ function ShowOptions () {
       <li>Create Factory</li>
       <li>Rename Factory</li>
       <li>Generate Numbers</li>
-      <li>Delete Factory</li>
+      <li id='warning'>Delete Factory</li>
     </ul>
   );
 }
