@@ -167,6 +167,7 @@ export default class App extends Component {
             <Root payload={payload} />
           </div>
         </div>
+        <footer></footer>
       </div>
     );
   }

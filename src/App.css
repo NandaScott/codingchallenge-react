@@ -61,7 +61,7 @@
   *padding: .4em;
   width: 50em;
   margin: .8em 0;
-  background: #abf2ff;
+  background: #6bbbe2;
   color: #000;
   text-decoration: none;
   -moz-border-radius: .3em;
@@ -75,7 +75,7 @@
   padding: .4em;
   *padding: .4em;
   margin: .5em;
-  background: #abf2ff;
+  background: #83F3D4;
   color: #000;
   text-decoration: none;
   -moz-border-radius: .3em;
@@ -88,7 +88,7 @@
 }
 
 .list-type1 .list-header:hover{
-  background: #d6f9ff;
+  background: #88d0f2;
   text-decoration:none;
   transform: scale(1.01);
 }
@@ -106,7 +106,7 @@
 .options-styling ul {
   list-style-type: none;
   padding-left: 0;
-  background: rgb(139, 188, 211);
+  background: #469cc4;
   text-align: center;
   border-radius: .3em;
   font-weight: 500;
@@ -124,18 +124,18 @@
 }
 
 .options-styling li:hover {
-  background: #173149;
+  background: #316C89;
   color: white;
 }
 
 .options-styling li:hover:first-child {
-  background: #173149;
+  background: #316C89;
   color: white;
   border-radius: .3em .3em 0 0;
 }
 
 .options-styling li:hover:last-child {
-  background: #173149;
+  background: #316C89;
   color: white;
   border-radius: 0 0 .3em .3em;
 }
@@ -144,7 +144,7 @@
   margin: 1em 0;
   border: none;
   display: inline-block;
-  background: #d6f9ff;
+  background: #88d0f2;
   padding: 1em;
   border-radius: .3em;
   font-weight: 500;
@@ -156,7 +156,7 @@
 }
 
 #button:hover {
-  background: #abf2ff;
+  background: #6bbbe2;
 }
 
 #warning:hover {
@@ -166,4 +166,8 @@
 
 #root-options:hover {
   border-radius: .3em;
+}
+
+footer {
+	padding: 5em;
 }
