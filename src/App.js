@@ -18,10 +18,17 @@ for (let i = 0; i < rn({min:1, max: 15, integer:true}); i++) {
 function ShowOptions () {
   return (
     <ul>
-      <li>Create Factory</li>
       <li>Rename Factory</li>
       <li>Generate Numbers</li>
       <li id='warning'>Delete Factory</li>
+    </ul>
+  );
+}
+
+function ShowRootOptions () {
+  return (
+    <ul>
+      <li id='root-options'><a onClick={alert('test')}>Create Factory</a></li>
     </ul>
   );
 }
@@ -32,9 +39,14 @@ function HideOptions () {
 
 function HandleOptions (props) {
   const renderOptions = props.renderOptions;
+  const renderRootOptions = props.renderRootOptions;
 
   if (renderOptions) {
     return <ShowOptions />;
+  }
+
+  if (renderRootOptions) {
+    return <ShowRootOptions />;
   }
 
   return <HideOptions />;
@@ -82,9 +94,18 @@ class OptionsControl extends Component {
       button = <ShowOptionsButton onClick={this.handleShowOptionsClick} />;
     }
 
+    if (this.props.renderRootOptions) {
+      return (
+        <div className='options-styling'>
+          <HandleOptions renderRootOptions={isShown} />
+          {button}
+        </div>
+      );
+    }
+
     return (
       <div className='options-styling'>
-        <HandleOptions renderOptions={isShown} />
+        <HandleOptions renderOptions={isShown}/>
         {button}
       </div>
     );
@@ -94,7 +115,7 @@ class OptionsControl extends Component {
 function MapPayload (props) {
   return props.payload.map((anObjectMapped, index) => {
     let listValues = anObjectMapped.values.map((values, index) => 
-      <li key={index}><span className="list-item">{values}</span></li>
+      <li key={index} className='list-item'>{values}</li>
     );
 
     return(
@@ -106,7 +127,7 @@ function MapPayload (props) {
               <OptionsControl />
             </h4>
           </div>
-          <ol key={index}>
+          <ol key={index} className='horizontal-list'>
             {listValues}
           </ol>
         </li>
@@ -122,7 +143,7 @@ function Root (props) {
           <div className="list-header">
             <h3>
               Root
-              <OptionsControl />
+              <OptionsControl renderRootOptions={true}/>
             </h3>
           </div>
           <MapPayload payload={props.payload}/>
