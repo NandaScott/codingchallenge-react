@@ -18,9 +18,9 @@ for (let i = 0; i < rn({min:1, max: 15, integer:true}); i++) {
 function ShowOptions () {
   return (
     <ul>
-      <li>Rename Factory</li>
-      <li>Generate Numbers</li>
-      <li id='warning'>Delete Factory</li>
+      <li><a onClick={() => {alert('Renaming Factory!')}}>Rename Factory</a></li>
+      <li><a onClick={() => {alert('Generating Numbers!')}}>Generate Numbers</a></li>
+      <li id='warning'><a onClick={() => {alert('Deleting a factory!')}}>Delete Factory</a></li>
     </ul>
   );
 }
@@ -28,7 +28,7 @@ function ShowOptions () {
 function ShowRootOptions () {
   return (
     <ul>
-      <li id='root-options'><a onClick={alert('test')}>Create Factory</a></li>
+      <li id='root-options'><a onClick={() => {alert('Creating a factory!')}}>Create Factory</a></li>
     </ul>
   );
 }
