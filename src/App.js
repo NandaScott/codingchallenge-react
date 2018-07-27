@@ -3,22 +3,27 @@ import logo from './logo.svg';
 import './App.css';
 const rn = require('random-number');
 const randomNames = require('random-name');
+const io = require('socket.io-client');
 
-// This block will mimic the payload from the API
 let payload = [];
-for (let i = 0; i < rn({min:1, max: 15, integer:true}); i++) {
-  let arr = [];
-  for (let i = 0; i < rn({min:1, max:15, integer:true}); i++) {
-    arr.push(rn({min:100, max:999, integer:true}));
-  }
+for (let i = 0; i < rn({ min: 1, max: 15, integer: true }); i++) {
+    let arr = [];
+    for (let i = 0; i < rn({ min: 1, max: 15, integer: true }); i++) {
+        arr.push(rn({ min: 100, max: 999, integer: true }));
+    }
 
-  payload.push({name: randomNames(), values: arr});
+    payload.push({ name: randomNames(), values: arr });
 }
 
 function ShowOptions () {
+
+  let rename = () => {
+    socket.emit('rename', 'hello')
+  }
+
   return (
     <ul>
-      <li><a onClick={() => {alert('Renaming Factory!')}}>Rename Factory</a></li>
+      <li><a onClick={rename}>Rename Factory</a></li>
       <li><a onClick={() => {alert('Generating Numbers!')}}>Generate Numbers</a></li>
       <li id='warning'><a onClick={() => {alert('Deleting a factory!')}}>Delete Factory</a></li>
     </ul>
@@ -68,50 +73,6 @@ function HideOptionsButton (props) {
   );
 }
 
-class OptionsControl extends Component {
-  constructor (props) {
-    super(props);
-    this.handleShowOptionsClick = this.handleShowOptionsClick.bind(this);
-    this.handleHideOptionsClick = this.handleHideOptionsClick.bind(this);
-    this.state = {isShown: false};
-  }
-
-  handleShowOptionsClick () {
-    this.setState({isShown: true});
-  }
-
-  handleHideOptionsClick () {
-    this.setState({isShown: false});
-  }
-
-  render () {
-    const isShown = this.state.isShown;
-    let button;
-
-    if (isShown) {
-      button = <HideOptionsButton onClick={this.handleHideOptionsClick} />;
-    } else {
-      button = <ShowOptionsButton onClick={this.handleShowOptionsClick} />;
-    }
-
-    if (this.props.renderRootOptions) {
-      return (
-        <div className='options-styling'>
-          <HandleOptions renderRootOptions={isShown} />
-          {button}
-        </div>
-      );
-    }
-
-    return (
-      <div className='options-styling'>
-        <HandleOptions renderOptions={isShown}/>
-        {button}
-      </div>
-    );
-  }
-}
-
 function MapPayload (props) {
   return props.payload.map((anObjectMapped, index) => {
     let listValues = anObjectMapped.values.map((values, index) => 
@@ -152,8 +113,57 @@ function Root (props) {
   );
 }
 
+class OptionsControl extends Component {
+  constructor(props) {
+    super(props);
+    this.handleShowOptionsClick = this.handleShowOptionsClick.bind(this);
+    this.handleHideOptionsClick = this.handleHideOptionsClick.bind(this);
+    this.state = { isShown: false };
+  }
+
+  handleShowOptionsClick() {
+    this.setState({ isShown: true });
+  }
+
+  handleHideOptionsClick() {
+    this.setState({ isShown: false });
+  }
+
+  render() {
+    const isShown = this.state.isShown;
+    let button;
+
+    if (isShown) {
+      button = <HideOptionsButton onClick={this.handleHideOptionsClick} />;
+    } else {
+      button = <ShowOptionsButton onClick={this.handleShowOptionsClick} />;
+    }
+
+    if (this.props.renderRootOptions) {
+      return (
+        <div className='options-styling'>
+          <HandleOptions renderRootOptions={isShown} />
+          {button}
+        </div>
+      );
+    }
+
+    return (
+      <div className='options-styling'>
+        <HandleOptions renderOptions={isShown} />
+        {button}
+      </div>
+    );
+  }
+}
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.socket = io('http://localhost:8000');
+  }
+
+
   render() {
     return(
       <div className="App">
