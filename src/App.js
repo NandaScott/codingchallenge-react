@@ -1,29 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-const rn = require('random-number');
-const randomNames = require('random-name');
-const io = require('socket.io-client');
-
-let payload = [];
-for (let i = 0; i < rn({ min: 1, max: 15, integer: true }); i++) {
-    let arr = [];
-    for (let i = 0; i < rn({ min: 1, max: 15, integer: true }); i++) {
-        arr.push(rn({ min: 100, max: 999, integer: true }));
-    }
-
-    payload.push({ name: randomNames(), values: arr });
-}
+import socketIOClient from 'socket.io-client';
 
 function ShowOptions () {
 
-  let rename = () => {
-    socket.emit('rename', 'hello')
-  }
-
   return (
     <ul>
-      <li><a onClick={rename}>Rename Factory</a></li>
+      <li><a onClick={() => {alert('Rename!')}}>Rename Factory</a></li>
       <li><a onClick={() => {alert('Generating Numbers!')}}>Generate Numbers</a></li>
       <li id='warning'><a onClick={() => {alert('Deleting a factory!')}}>Delete Factory</a></li>
     </ul>
@@ -160,11 +144,31 @@ class OptionsControl extends Component {
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.socket = io('http://localhost:8000');
+    this.state = {
+      loaded: false,
+      response: undefined,
+      endpoint: 'http://localhost:4001'
+    }
   }
 
+  onRecieveData = (data) => {
+    this.setState({ loaded: true, response: data });
+  }
+
+  componentDidMount() {
+    const { endpoint } = this.state;
+    const socket = socketIOClient(endpoint);
+    socket.on('FromAPI', this.onRecieveData);
+  }
 
   render() {
+    const { loaded, response } = this.state;
+
+
+    if (!loaded) {
+      return (<div><p>Loading...</p></div>);
+    }
+
     return(
       <div className="App">
         <header className="App-header">
@@ -174,7 +178,7 @@ export default class App extends Component {
 
         <div className="table-container">
           <div className="list-type1">
-            <Root payload={payload} />
+            <Root payload={response} />
           </div>
         </div>
         <footer></footer>
