@@ -2,60 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import socketIOClient from 'socket.io-client';
-
-function ShowOptions () {
-
-  return (
-    <ul>
-      <li><a onClick={() => {alert('Rename!')}}>Rename Factory</a></li>
-      <li><a onClick={() => {alert('Generating Numbers!')}}>Generate Numbers</a></li>
-      <li id='warning'><a onClick={() => {alert('Deleting a factory!')}}>Delete Factory</a></li>
-    </ul>
-  );
-}
-
-function ShowRootOptions () {
-  return (
-    <ul>
-      <li id='root-options'><a onClick={() => {alert('Creating a factory!')}}>Create Factory</a></li>
-    </ul>
-  );
-}
-
-function HideOptions () {
-  return (null);
-}
-
-function HandleOptions (props) {
-  const renderOptions = props.renderOptions;
-  const renderRootOptions = props.renderRootOptions;
-
-  if (renderOptions) {
-    return <ShowOptions />;
-  }
-
-  if (renderRootOptions) {
-    return <ShowRootOptions />;
-  }
-
-  return <HideOptions />;
-}
-
-function ShowOptionsButton (props) {
-  return (
-    <button id='button' onClick={props.onClick}>
-      Show Options
-    </button>
-  );
-}
-
-function HideOptionsButton (props) {
-  return (
-    <button id='button' onClick={props.onClick}>
-      Hide Options
-    </button>
-  );
-}
+import { OptionsControl } from './AppOptions';
 
 function MapPayload (props) {
   return props.payload.map((anObjectMapped, index) => {
@@ -95,50 +42,6 @@ function Root (props) {
         </li>
       </ol>
   );
-}
-
-class OptionsControl extends Component {
-  constructor(props) {
-    super(props);
-    this.handleShowOptionsClick = this.handleShowOptionsClick.bind(this);
-    this.handleHideOptionsClick = this.handleHideOptionsClick.bind(this);
-    this.state = { isShown: false };
-  }
-
-  handleShowOptionsClick() {
-    this.setState({ isShown: true });
-  }
-
-  handleHideOptionsClick() {
-    this.setState({ isShown: false });
-  }
-
-  render() {
-    const isShown = this.state.isShown;
-    let button;
-
-    if (isShown) {
-      button = <HideOptionsButton onClick={this.handleHideOptionsClick} />;
-    } else {
-      button = <ShowOptionsButton onClick={this.handleShowOptionsClick} />;
-    }
-
-    if (this.props.renderRootOptions) {
-      return (
-        <div className='options-styling'>
-          <HandleOptions renderRootOptions={isShown} />
-          {button}
-        </div>
-      );
-    }
-
-    return (
-      <div className='options-styling'>
-        <HandleOptions renderOptions={isShown} />
-        {button}
-      </div>
-    );
-  }
 }
 
 export default class App extends Component {
