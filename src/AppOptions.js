@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 
 function renameFactory (id) {
-    let newName = prompt('Enter a new name for this factory.');
+    let newName = window.prompt('Enter a new name for this factory.');
     const socket = socketIOClient('http://localhost:4001');
 
     let object = {name: newName, factoryId: id};
@@ -11,7 +11,7 @@ function renameFactory (id) {
 }
 
 function generateNumbers (id, name) {
-    let totalGen = prompt('Enter an amount of numbers to be generated. Must be between 0 and 15.');
+    let totalGen = window.prompt('Enter an amount of numbers to be generated. Must be between 0 and 15.');
     const socket = socketIOClient('http://localhost:4001');
 
     let object = {numberOfChildren: totalGen, factoryId: id, name: name};
@@ -19,7 +19,17 @@ function generateNumbers (id, name) {
     socket.emit('generateNumbers', id, object);
 }
 
-function deleteFactory () {
+function deleteFactory (id) {
+    let ech = window.confirm('Are you sure you want to delete this factory?');
+
+    if (ech) {
+        const socket = socketIOClient('http://localhost:4001');
+
+        let object = {factoryId: id};
+
+        socket.emit('deleteFactory', id, object);
+    }
+
     return null;
 }
 

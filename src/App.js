@@ -95,7 +95,7 @@ export default class App extends Component {
             );
 
             this.setState({ response: current })
-        })
+        });
     }
 
     render() {
