@@ -18,8 +18,7 @@ function MapPayload (props) {
                             {anObjectMapped.name}
                             <OptionsControl
                                 objectId={anObjectMapped._id}
-                                numberOfChildren={listValues.length}
-                                socket={props.socket}
+                                name={anObjectMapped.name}
                             />
                         </h4>
                     </div>
@@ -42,10 +41,23 @@ function Root (props) {
                         <OptionsControl renderRootOptions={true}/>
                     </h3>
                 </div>
-                <MapPayload payload={props.payload} socket={props.socket}/>
+                <MapPayload payload={props.payload} />
             </li>
         </ol>
     );
+}
+
+function updateRelevantObject (array, id, name, values) {
+
+    for (var i in array) {
+        if (array[i]._id === id) {
+            array[i].name = name;
+            array[i].values = values;
+            break;
+        }
+    }
+
+    return array;
 }
 
 export default class App extends Component {
@@ -64,20 +76,26 @@ export default class App extends Component {
         });
 
         this.socket.on('renamedFactory', (data) => {
-            let current = this.state.response;
-
-            console.log(data);
-
-            for (var i in current) {
-                if (current[i]._id === data._id) {
-                    current[i].name = data.name;
-                    current[i].values = data.values;
-                    break;
-                }
-            }
+            let current = updateRelevantObject(
+                this.state.response,
+                data._id,
+                data.name,
+                data.values
+            );
 
             this.setState({ response: current });
         });
+
+        this.socket.on('generatedNumbers', (data) => {
+            let current = updateRelevantObject(
+                this.state.response,
+                data._id,
+                data.name,
+                data.values
+            );
+
+            this.setState({ response: current })
+        })
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 
-function renameFactory (id, numberOfChildren) {
+function renameFactory (id) {
     let newName = prompt('Enter a new name for this factory.');
     const socket = socketIOClient('http://localhost:4001');
 
@@ -10,8 +10,13 @@ function renameFactory (id, numberOfChildren) {
     socket.emit('renameFactory', id, object);
 }
 
-function generateNumbers () {
-    return null;
+function generateNumbers (id, name) {
+    let totalGen = prompt('Enter an amount of numbers to be generated. Must be between 0 and 15.');
+    const socket = socketIOClient('http://localhost:4001');
+
+    let object = {numberOfChildren: totalGen, factoryId: id, name: name};
+
+    socket.emit('generateNumbers', id, object);
 }
 
 function deleteFactory () {
@@ -21,17 +26,17 @@ function deleteFactory () {
 function ShowOptions (props) {
 
     const id = props.objectId;
-    const numberOfChildren = props.numberOfChildren;
+    const name = props.name;
 
     return (
         <ul>
             <li>
-                <a onClick={() => {renameFactory(id, numberOfChildren)}}>
+                <a onClick={() => {renameFactory(id)}}>
                     Rename Factory
                 </a>
             </li>
             <li>
-                <a onClick={() => {generateNumbers(id)}}>
+                <a onClick={() => {generateNumbers(id, name)}}>
                     Generate Numbers
                 </a>
             </li>
@@ -67,7 +72,7 @@ function HandleOptions (props) {
     if (renderOptions) {
         return <ShowOptions 
             objectId={props.objectId}
-            numberOfChildren={props.numberOfChildren}
+            name={props.name}
         />;
     }
 
@@ -100,7 +105,7 @@ export class OptionsControl extends Component {
         this.handleShowOptionsClick = this.handleShowOptionsClick.bind(this);
         this.handleHideOptionsClick = this.handleHideOptionsClick.bind(this);
         this.objectId = this.props.objectId;
-        this.numberOfChildren = this.props.numberOfChildren;
+        this.name = this.props.name;
         this.state = { isShown: false };
     }
 
@@ -136,7 +141,7 @@ export class OptionsControl extends Component {
                 <HandleOptions 
                     renderOptions={isShown}
                     objectId={this.objectId}
-                    numberOfChildren={this.numberOfChildren}
+                    name={this.name}
                 />
                 {button}
             </div>
