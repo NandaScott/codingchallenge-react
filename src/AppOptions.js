@@ -33,6 +33,12 @@ function deleteFactory (id) {
     return null;
 }
 
+function createFactory () {
+    const socket = socketIOClient('http://localhost:4001');
+    let object = {name: 'Untitled', numberOfChildren: 0}
+    socket.emit('createFactory', 'hello', object);
+}
+
 function ShowOptions (props) {
 
     const id = props.objectId;
@@ -63,7 +69,7 @@ function ShowRootOptions () {
     return (
         <ul>
             <li id='root-options'>
-                <a onClick={() => {alert('Creating a factory!')}}>
+                <a onClick={() => {createFactory()}}>
                     Create Factory
                 </a>
             </li>
