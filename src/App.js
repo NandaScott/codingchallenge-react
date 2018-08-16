@@ -19,6 +19,7 @@ function MapPayload (props) {
                             <OptionsControl
                                 objectId={anObjectMapped._id}
                                 name={anObjectMapped.name}
+                                numberOfChildren={anObjectMapped.number_of_children}
                             />
                         </h4>
                     </div>

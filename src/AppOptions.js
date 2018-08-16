@@ -35,7 +35,7 @@ function deleteFactory (id) {
 
 function createFactory () {
     const socket = socketIOClient('http://localhost:4001');
-    let object = {name: 'Untitled', numberOfChildren: 0}
+    let object = {name: 'RenameMe', numberOfChildren: 0}
     socket.emit('createFactory', 'hello', object);
 }
 
@@ -43,11 +43,12 @@ function ShowOptions (props) {
 
     const id = props.objectId;
     const name = props.name;
+    const numberOfChildren = props.numberOfChildren;
 
     return (
         <ul>
             <li>
-                <a onClick={() => {renameFactory(id)}}>
+                <a onClick={() => {renameFactory(id, numberOfChildren)}}>
                     Rename Factory
                 </a>
             </li>
@@ -89,6 +90,7 @@ function HandleOptions (props) {
         return <ShowOptions 
             objectId={props.objectId}
             name={props.name}
+            numberOfChildren={props.numberOfChildren}
         />;
     }
 
@@ -122,6 +124,7 @@ export class OptionsControl extends Component {
         this.handleHideOptionsClick = this.handleHideOptionsClick.bind(this);
         this.objectId = this.props.objectId;
         this.name = this.props.name;
+        this.numberOfChildren = this.props.numberOfChildren;
         this.state = { isShown: false };
     }
 
@@ -158,6 +161,7 @@ export class OptionsControl extends Component {
                     renderOptions={isShown}
                     objectId={this.objectId}
                     name={this.name}
+                    numberOfChildren={this.numberOfChildren}
                 />
                 {button}
             </div>
