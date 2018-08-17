@@ -47,7 +47,6 @@ function ShowOptions (props) {
 
     const id = props.objectId;
     const name = props.name;
-    const numberOfChildren = props.numberOfChildren;
     const socket = props.socket;
 
     return (
