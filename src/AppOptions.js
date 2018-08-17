@@ -11,8 +11,16 @@ function renameFactory (id, socket) {
 
 function generateNumbers (id, name, socket) {
     let totalGen = window.prompt('Enter an amount of numbers to be generated. Must be between 0 and 15.');
+    let min = window.prompt('Enter a number for the minimum.');
+    let max = window.prompt('Enter a number for the maximum');
 
-    let object = {numberOfChildren: totalGen, factoryId: id, name: name};
+    let object = {
+        numberOfChildren: totalGen, 
+        factoryId: id, 
+        name: name,
+        minimum: min,
+        maximum: max
+    };
 
     socket.emit('generateNumbers', object);
 }
