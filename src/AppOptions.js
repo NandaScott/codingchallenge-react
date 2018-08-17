@@ -1,42 +1,38 @@
 import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client';
+import SocketContext from './socket-context';
 
-function renameFactory (id) {
+function renameFactory (id, socket) {
+
     let newName = window.prompt('Enter a new name for this factory.');
-    const socket = socketIOClient('http://localhost:4001');
-
     let object = {name: newName, factoryId: id};
 
-    socket.emit('renameFactory', id, object);
+    socket.emit('renameFactory', object);
 }
 
-function generateNumbers (id, name) {
+function generateNumbers (id, name, socket) {
     let totalGen = window.prompt('Enter an amount of numbers to be generated. Must be between 0 and 15.');
-    const socket = socketIOClient('http://localhost:4001');
 
     let object = {numberOfChildren: totalGen, factoryId: id, name: name};
 
-    socket.emit('generateNumbers', id, object);
+    socket.emit('generateNumbers', object);
 }
 
-function deleteFactory (id) {
-    let ech = window.confirm('Are you sure you want to delete this factory?');
+function deleteFactory (id, socket) {
+    let choice = window.confirm('Are you sure you want to delete this factory?');
 
-    if (ech) {
-        const socket = socketIOClient('http://localhost:4001');
+    if (choice) {
 
         let object = {factoryId: id};
 
-        socket.emit('deleteFactory', id, object);
+        socket.emit('deleteFactory', object);
     }
 
     return null;
 }
 
-function createFactory () {
-    const socket = socketIOClient('http://localhost:4001');
+function createFactory (socket) {
     let object = {name: 'RenameMe', numberOfChildren: 0}
-    socket.emit('createFactory', 'hello', object);
+    socket.emit('createFactory', object);
 }
 
 function ShowOptions (props) {
@@ -44,21 +40,22 @@ function ShowOptions (props) {
     const id = props.objectId;
     const name = props.name;
     const numberOfChildren = props.numberOfChildren;
+    const socket = props.socket;
 
     return (
         <ul>
             <li>
-                <a onClick={() => {renameFactory(id, numberOfChildren)}}>
+                <a onClick={() => {renameFactory(id, socket)}}>
                     Rename Factory
                 </a>
             </li>
             <li>
-                <a onClick={() => {generateNumbers(id, name)}}>
+                <a onClick={() => {generateNumbers(id, name, socket)}}>
                     Generate Numbers
                 </a>
             </li>
             <li id='warning'>
-                <a onClick={() => {deleteFactory(id)}}>
+                <a onClick={() => {deleteFactory(id, socket)}}>
                     Delete Factory
                 </a>
             </li>
@@ -66,11 +63,14 @@ function ShowOptions (props) {
     );
 }
 
-function ShowRootOptions () {
+function ShowRootOptions (props) {
+
+    let socket = props.socket;
+
     return (
         <ul>
             <li id='root-options'>
-                <a onClick={() => {createFactory()}}>
+                <a onClick={() => {createFactory(socket)}}>
                     Create Factory
                 </a>
             </li>
@@ -87,15 +87,24 @@ function HandleOptions (props) {
     const renderRootOptions = props.renderRootOptions;
 
     if (renderOptions) {
-        return <ShowOptions 
-            objectId={props.objectId}
-            name={props.name}
-            numberOfChildren={props.numberOfChildren}
-        />;
+        return (
+        <SocketContext.Consumer>
+            {socket => <ShowOptions 
+                objectId={props.objectId}
+                name={props.name}
+                numberOfChildren={props.numberOfChildren}
+                socket={socket}
+            />}
+        </SocketContext.Consumer>
+        );
     }
 
     if (renderRootOptions) {
-        return <ShowRootOptions />;
+        return (
+            <SocketContext.Consumer>
+                {socket => <ShowRootOptions socket={socket}/>}
+            </SocketContext.Consumer>
+        );
     }
 
     return <HideOptions />;

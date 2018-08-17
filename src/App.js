@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import socketIOClient from 'socket.io-client';
 import { OptionsControl } from './AppOptions';
+import SocketContext from './socket-context';
 
 function MapPayload (props) {
     return props.payload.map((anObjectMapped, index) => {
@@ -98,6 +99,9 @@ export default class App extends Component {
             this.setState({ response: current })
         });
 
+        this.socket.on('handleError', (data) => {
+            window.alert(data.message);
+        })
     }
 
     render() {
@@ -116,7 +120,9 @@ export default class App extends Component {
 
             <div className="table-container">
                 <div className="list-type1">
-                    <Root payload={response}/>
+                    <SocketContext.Provider value={this.socket} >
+                        <Root payload={response}/>
+                    </SocketContext.Provider>
                 </div>
             </div>
             <footer></footer>
