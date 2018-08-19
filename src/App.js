@@ -68,7 +68,7 @@ export default class App extends Component {
         this.state = {
             loaded: false,
             response: undefined,
-            endpoint: 'http://localhost:4001'
+            endpoint: 'http://challengebackend.herokuapp.com'
         }
 
         this.socket = socketIOClient(this.state.endpoint);
