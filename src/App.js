@@ -68,7 +68,7 @@ export default class App extends Component {
         this.state = {
             loaded: false,
             response: undefined,
-            endpoint: 'http://challengebackend.herokuapp.com'
+            endpoint: 'http://ccsocket.herokuapp.com'
         }
 
         this.socket = socketIOClient(this.state.endpoint);
