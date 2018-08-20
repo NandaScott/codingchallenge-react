@@ -15,7 +15,7 @@ function generateNumbers (id, name, socket) {
     let max = window.prompt('Enter a number for the maximum');
 
     let object = {
-        numberOfChildren: totalGen, 
+        numberOfChildren: totalGen,
         factoryId: id, 
         name: name,
         minimum: min,
@@ -138,9 +138,6 @@ export class OptionsControl extends Component {
         super(props);
         this.handleShowOptionsClick = this.handleShowOptionsClick.bind(this);
         this.handleHideOptionsClick = this.handleHideOptionsClick.bind(this);
-        this.objectId = this.props.objectId;
-        this.name = this.props.name;
-        this.numberOfChildren = this.props.numberOfChildren;
         this.state = { isShown: false };
     }
 
@@ -175,9 +172,9 @@ export class OptionsControl extends Component {
             <div className='options-styling'>
                 <HandleOptions 
                     renderOptions={isShown}
-                    objectId={this.objectId}
-                    name={this.name}
-                    numberOfChildren={this.numberOfChildren}
+                    objectId={this.props.objectId}
+                    name={this.props.name}
+                    numberOfChildren={this.props.numberOfChildren}
                 />
                 {button}
             </div>

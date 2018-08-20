@@ -49,19 +49,6 @@ function Root (props) {
     );
 }
 
-function updateRelevantObject (array, id, name, values) {
-
-    for (var i in array) {
-        if (array[i]._id === id) {
-            array[i].name = name;
-            array[i].values = values;
-            break;
-        }
-    }
-
-    return array;
-}
-
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -78,25 +65,11 @@ export default class App extends Component {
         });
 
         this.socket.on('renamedFactory', (data) => {
-            let current = updateRelevantObject(
-                this.state.response,
-                data._id,
-                data.name,
-                data.values
-            );
-
-            this.setState({ response: current });
+            this.setState({ response: data });
         });
 
         this.socket.on('generatedNumbers', (data) => {
-            let current = updateRelevantObject(
-                this.state.response,
-                data._id,
-                data.name,
-                data.values
-            );
-
-            this.setState({ response: current })
+            this.setState({ response: data })
         });
 
         this.socket.on('handleError', (data) => {
