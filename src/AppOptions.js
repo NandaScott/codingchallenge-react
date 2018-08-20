@@ -39,7 +39,8 @@ function deleteFactory (id, socket) {
 }
 
 function createFactory (socket) {
-    let object = {name: 'RenameMe', numberOfChildren: 0}
+    let newName = window.prompt('Enter a name for the factory.') || 'RenameMe';
+    let object = {name: newName, numberOfChildren: 0}
     socket.emit('createFactory', object);
 }
 
